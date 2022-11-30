@@ -1,35 +1,66 @@
-import conn
-import svc
+from userDB import DBConn
+from svcPassDB import DBSVC
 import getpass
 
-print ('-------------------------------------')
+class Pypass:
+
+    def __init__(self, username, password) -> None:
+        self.username = username
+        self.password = password
+
+    def getUser(self):
+        user = [self.username, self.password]
+
+        return user
+    
+    def isLogged(self) -> bool:
+        connection = DBConn(self.username, self.password)
+        connection.initDB()
+        isLogged = connection.login()
+
+        return isLogged
+
+    def getOption(self) -> int:
+        option = int(input('1- Criar nova senha, 2 - Buscar senha, 3 - Mostrar todas as senhas, 4 - sair: '))
+        
+        return option
+
+    def printCollumn(self):
+        print ('-------------------------------------')
 
 username = str(input('Digite o nome de usuario: '))
 password = str(getpass.getpass('Digite a senha de usuario: '))
 
-conection = conn.DBConn(username, password)
+init = Pypass(username, password)
 
-isLogged = conection.login()
+isLogged = init.isLogged()
 
 if(isLogged == True):
-    svcSenha = svc.DBSVC('')
+    
+    svcSenha = DBSVC()
     while(isLogged == True):
-        optionSelected = int(input('1- Criar nova senha, 2 - Buscar senha, 3 - Mostrar todas as senhas, 4 - sair: '))
+        optionSelected = init.getOption()
 
         if(optionSelected == 1):
             title = str(input('Digite o titulo da senha: '))
             email = str(input('Digite o email: '))
-            senha = str(getpass.getpass('Digete a senha: '))
+            senha = str(getpass.getpass('Digite a senha: '))
             svcSenha.createPass(title, email, senha)
+            
+            init.printCollumn()
 
         if(optionSelected == 2):
             title = str(input('Digite o titulo da senha: '))
             svcSenha.getPassword(title)
 
+            init.printCollumn()
+
         if(optionSelected == 3):
-            svcSenha.showPassword()
-        
+            svcSenha.getAllPasswords()
+
+            init.printCollumn()
+
         if(optionSelected == 4):
             isLogged = False
 
-print ('-------------------------------------')
+            init.printCollumn()

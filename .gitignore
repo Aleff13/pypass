@@ -1,2 +1,5 @@
 *.db
 *.sql
+*.pem
+test.py
+*__pycache__
