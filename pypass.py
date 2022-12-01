@@ -1,6 +1,7 @@
 from userDB import DBConn
 from svcPassDB import DBSVC
 import getpass
+from colors import bcolors
 
 class Pypass:
 
@@ -26,7 +27,9 @@ class Pypass:
         return option
 
     def printCollumn(self):
-        print ('-------------------------------------')
+        print (bcolors.OKBLUE+'-------------------------------------'+bcolors.ENDC)
+
+print (bcolors.OKBLUE+'-------------------------------------'+bcolors.ENDC)
 
 username = str(input('Digite o nome de usuario: '))
 password = str(getpass.getpass('Digite a senha de usuario: '))
@@ -40,17 +43,22 @@ if(isLogged == True):
     svcSenha = DBSVC()
     while(isLogged == True):
         optionSelected = init.getOption()
+        init.printCollumn()
 
         if(optionSelected == 1):
             title = str(input('Digite o titulo da senha: '))
             email = str(input('Digite o email: '))
             senha = str(getpass.getpass('Digite a senha: '))
+            init.printCollumn()
+
             svcSenha.createPass(title, email, senha)
             
             init.printCollumn()
 
         if(optionSelected == 2):
             title = str(input('Digite o titulo da senha: '))
+            init.printCollumn()
+
             svcSenha.getPassword(title)
 
             init.printCollumn()

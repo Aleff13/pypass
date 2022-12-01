@@ -15,11 +15,15 @@ class DBSVC:
         conn.commit()
         conn.close()
 
-    def createPass(self, title, email, password):
+    def createPass(self, title: str, email: str, password: str):
+
+        if (title == '' or email == '' or password == ''):
+            print(bcolors.WARNING+ "Informe todos os valores para criar uma senha"+bcolors.ENDC)
+            return
+
         conn = sqlite3.connect('passwords.db')
         c = conn.cursor()
 
-        #criptografar senha com
         crypt = criptografySVC()
         pubKey, privateKey = crypt.loadKeys()
         cryptPass = crypt.encrypt(password, pubKey)
@@ -32,42 +36,33 @@ class DBSVC:
         except:
             print(bcolors.WARNING+ "Um erro ocorreu"+bcolors.ENDC)
 
-    def getPassword(self, title):
+    def getPassword(self, title: str):
         conn = sqlite3.connect('passwords.db')
         c = conn.cursor()
+
         c.execute('SELECT title, email, pass FROM passwords WHERE (title == (?))', (title,))
         rows = c.fetchall()
 
-        #print(rows)
-
-        #descriptografar senha com
         crypt = criptografySVC()
         pubKey, privateKey = crypt.loadKeys()
 
         for row in rows:
             password = row[2]
             decPassword = crypt.decrypt(password, pubKey)
-            #print('password' + decPassword)
             print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
 
     def getAllPasswords(self):
         conn = sqlite3.connect('passwords.db')
         c = conn.cursor()
+
         c.execute('SELECT * FROM passwords')
         rows = c.fetchall()
 
-        #descriptografar senha com
         crypt = criptografySVC()
         pubKey, privateKey = crypt.loadKeys()
 
         for row in rows:
             password = row[3]
             decPassword = crypt.decrypt(password, pubKey)
-            #print('password' + decPassword)
-            print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
 
-# con = DBSVC()
-# # #con.createUser()
-# con.initDB()
-# #scon.createPass('teste', 'test' ,'123123')
-# con.getAllPasswords()
+            print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))

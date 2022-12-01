@@ -21,13 +21,3 @@ class Hash:
 
     def encodeString(self, value):
         return value.encode()
-        
-# password = str(input("Digite sua senha: "))
-
-# encript = Crypt()
-# hash = encript.Encrypt(password)
-# password = str(input("Digite sua senha: "))
-
-# check = encript.checkHash(hash, password)
-
-# print(check)

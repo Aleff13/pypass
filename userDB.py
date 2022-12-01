@@ -1,6 +1,8 @@
 import sqlite3
 from hash import Hash
 from svcCript import criptografySVC
+from svcPassDB import DBSVC
+
 class DBConn:
 
     def __init__(self, name, password):
@@ -20,8 +22,10 @@ class DBConn:
 
         if(rows == []):
             self.createUser()
+            svcDbPass = DBSVC()
             svcCrypt = criptografySVC()
             svcCrypt.generateKeys()
+            svcDbPass.initDB()
 
         # commit changes and close database connect
         conn.commit()
@@ -72,10 +76,3 @@ class DBConn:
 
         for row in rows:
             print(row)
-
-#password = str(input('Digite a senha que deseja utilizar: '))
-# con = DBConn('admin', "235711")
-# con.initDB()
-# #con.createUser()
-# # con.login()
-# con.showUser()

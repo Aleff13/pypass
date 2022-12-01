@@ -8,15 +8,15 @@ class criptografySVC:
 
     def generateKeys(self):
         publicKey, privateKey = rsa.newkeys(1024)
-        with open('keys/publcKey.pem', 'wb') as p:
+        with open('publicKey.pem', 'wb') as p:
             p.write(publicKey.save_pkcs1('PEM'))
-        with open('keys/privateKey.pem', 'wb') as p:
+        with open('privateKey.pem', 'wb') as p:
             p.write(privateKey.save_pkcs1('PEM'))
 
     def loadKeys(self):
-        with open('keys/publcKey.pem', 'rb') as p:
+        with open('publicKey.pem', 'rb') as p:
             publicKey = rsa.PublicKey.load_pkcs1(p.read())
-        with open('keys/privateKey.pem', 'rb') as p:
+        with open('privateKey.pem', 'rb') as p:
             privateKey = rsa.PrivateKey.load_pkcs1(p.read())
 
         return privateKey, publicKey
@@ -38,27 +38,3 @@ class criptografySVC:
         decMessage = rsa.decrypt(encMessage, privateKey).decode() 
 
         return decMessage
-
-# con = DBConn('admin', "235711")
-
-svc = criptografySVC()
-svc.generateKeys()
-# # svc.setKeys()
-# user = con.getUser()
-
-# keys = [user[2], user[3]]
-
-# print(keys)
-
-# message = "senha 123123"
-
-# #encriptar com a chave publica
-# encMessage = svc.encrypt(message, keys[0])
-
-# print("original string: ", message) 
-# print("encrypted string: ", encMessage) 
-
-# #descriptografar com a privateKey e a encMessage
-# decMessage = svc.decrypt(encMessage, keys[1])
-  
-# print("decrypted string: ", decMessage) 
