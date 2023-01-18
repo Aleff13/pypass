@@ -3,6 +3,7 @@ from svcCript import criptografySVC
 from colors import bcolors
 
 class DBSVC:
+    ''' This class has services to work with the db'''
 
     def __init__(self) -> None:
         return
