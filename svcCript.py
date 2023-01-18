@@ -1,7 +1,7 @@
 import rsa 
 
 class criptografySVC:
-    '''This service provides a serie of criptografy service like generate keys, ecnript and decript'''
+    '''This class provides some methods to work with cryptography, like generate keys, encrypt and decrypt values'''
 
     def __init__(self) -> None:
         pass
