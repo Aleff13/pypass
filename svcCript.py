@@ -21,15 +21,6 @@ class criptografySVC:
 
         return privateKey, publicKey
 
-    # def encrypt(self, message: str, key):
-    #     return rsa.encrypt(message.encode('ascii'), key)
-
-    # def decrypt(self, ciphertext, key):
-    #     try:
-    #         return rsa.decrypt(ciphertext, key).decode('ascii')
-    #     except:
-    #         return False
-
     def encrypt(self, message: str, publicKey) -> str:
         encMessage = rsa.encrypt(message.encode(), publicKey) 
         return encMessage
