@@ -1,7 +1,7 @@
 import sqlite3
 from hash import Hash
-from svcCript import criptografySVC
-from svcPassDB import DBSVC
+from services.svcCript import criptografySVC
+from services.svcPassDB import DBSVC
 
 class DBConn:
 
@@ -12,7 +12,7 @@ class DBConn:
     def initDB(self):
         # Create a database and open the database.
         # If the database already exists just opens the database
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('db/users.db')
         c = conn.cursor()
         # Create a users table if the table does not exists
         c.execute('''CREATE TABLE IF NOT EXISTS users(username TEXT, pass TEXT)''')
@@ -32,9 +32,8 @@ class DBConn:
         conn.close()
 
     def login(self) -> bool:
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('db/users.db')
         c = conn.cursor()
-        svcEncript = Hash()
         c.execute('SELECT * FROM users WHERE (username == (?))', (self.name,))
         rows = c.fetchall()
 
@@ -42,21 +41,20 @@ class DBConn:
             return False
         
         DBHash = rows[0][1]
-        return svcEncript.checkHash(DBHash, self.password)
+        return Hash.checkHash(DBHash, self.password)
 
     def createUser(self):
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('db/users.db')
         c = conn.cursor()
 
-        svcEncript = Hash()
-        hash = svcEncript.Encrypt(self.password)
+        hash = Hash.Encrypt(self.password)
 
         c.execute('INSERT INTO users(username, pass) VALUES (?, ?)', (self.name, hash))
         conn.commit()
         conn.close()
 
     def getUser(self) -> list:
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('db/users.db')
         c = conn.cursor()
         c.execute('select * from users')
         rows = c.fetchall()
@@ -69,7 +67,7 @@ class DBConn:
         return user
 
     def showUser(self):
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('db/db/users.db')
         c = conn.cursor()
         c.execute('select * from users')
         rows = c.fetchall()

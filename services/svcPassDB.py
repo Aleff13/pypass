@@ -1,5 +1,5 @@
 import sqlite3
-from svcCript import criptografySVC
+from services.svcCript import criptografySVC
 from colors import bcolors
 
 class DBSVC:
@@ -8,7 +8,7 @@ class DBSVC:
         return
 
     def initDB(self):
-        conn = sqlite3.connect('passwords.db')
+        conn = sqlite3.connect('db/passwords.db')
         c = conn.cursor()
         c.execute('''CREATE TABLE IF NOT EXISTS passwords(title TEXT, email, TEXT, pass TEXT)''')
 
@@ -21,7 +21,7 @@ class DBSVC:
             print(bcolors.WARNING+ "Informe todos os valores para criar uma senha"+bcolors.ENDC)
             return
 
-        conn = sqlite3.connect('passwords.db')
+        conn = sqlite3.connect('db/passwords.db')
         c = conn.cursor()
 
         crypt = criptografySVC()
@@ -37,7 +37,7 @@ class DBSVC:
             print(bcolors.WARNING+ "Um erro ocorreu"+bcolors.ENDC)
 
     def getPassword(self, title: str):
-        conn = sqlite3.connect('passwords.db')
+        conn = sqlite3.connect('db/passwords.db')
         c = conn.cursor()
 
         c.execute('SELECT title, email, pass FROM passwords WHERE (title == (?))', (title,))
@@ -52,7 +52,7 @@ class DBSVC:
             print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
 
     def getAllPasswords(self):
-        conn = sqlite3.connect('passwords.db')
+        conn = sqlite3.connect('db/passwords.db')
         c = conn.cursor()
 
         c.execute('SELECT * FROM passwords')

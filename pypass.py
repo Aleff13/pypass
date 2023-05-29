@@ -1,5 +1,5 @@
 from userDB import DBConn
-from svcPassDB import DBSVC
+from services.svcPassDB import DBSVC
 import getpass
 from colors import bcolors
 
