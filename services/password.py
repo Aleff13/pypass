@@ -1,15 +1,17 @@
 import sqlite3
-from services.svcCript import criptografySVC
+from services.crypt import Crypt
 from utils.colors import bcolors
 
-class DBSVC:
+class Password:
     ''' This class has services to work with the db'''
+
+    dbPasswordsPath = 'db/passwords.db'
 
     def __init__(self) -> None:
         return
 
     def initDB(self):
-        conn = sqlite3.connect('db/passwords.db')
+        conn = sqlite3.connect(self.dbPasswordsPath)
         c = conn.cursor()
         c.execute('''CREATE TABLE IF NOT EXISTS passwords(title TEXT, email, TEXT, pass TEXT)''')
 
@@ -22,10 +24,10 @@ class DBSVC:
             print(bcolors.WARNING+ "Informe todos os valores para criar uma senha"+bcolors.ENDC)
             return
 
-        conn = sqlite3.connect('db/passwords.db')
+        conn = sqlite3.connect(self.dbPasswordsPath)
         c = conn.cursor()
 
-        crypt = criptografySVC()
+        crypt = Crypt()
         pubKey, privateKey = crypt.loadKeys()
         cryptPass = crypt.encrypt(password, pubKey)
 
@@ -38,13 +40,13 @@ class DBSVC:
             print(bcolors.WARNING+ "Um erro ocorreu"+bcolors.ENDC)
 
     def getPassword(self, title: str):
-        conn = sqlite3.connect('db/passwords.db')
+        conn = sqlite3.connect(self.dbPasswordsPath)
         c = conn.cursor()
 
         c.execute('SELECT title, email, pass FROM passwords WHERE (title == (?))', (title,))
         rows = c.fetchall()
 
-        crypt = criptografySVC()
+        crypt = Crypt()
         pubKey, privateKey = crypt.loadKeys()
 
         for row in rows:
@@ -53,13 +55,13 @@ class DBSVC:
             print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
 
     def getAllPasswords(self):
-        conn = sqlite3.connect('db/passwords.db')
+        conn = sqlite3.connect(self.dbPasswordsPath)
         c = conn.cursor()
 
         c.execute('SELECT * FROM passwords')
         rows = c.fetchall()
 
-        crypt = criptografySVC()
+        crypt = Crypt()
         pubKey, privateKey = crypt.loadKeys()
 
         for row in rows:
