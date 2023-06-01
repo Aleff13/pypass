@@ -5,16 +5,27 @@ from utils.colors import bcolors
 
 class Pypass:
 
-    def __init__(self, username, password) -> None:
+    def __init__(self, username, password, confirmPassword) -> None:
         self.username = username
         self.password = password
+        self.confirmPassword = confirmPassword
 
     def getUser(self):
         user = [self.username, self.password]
 
         return user
     
+    def assertPasswords(self)-> bool:
+        coincide = false
+        if (self.confirmPassword == self.password):
+            coincide = true 
+        
+        return coincide
+
     def isLogged(self) -> bool:
+        if not self.assertPasswords:
+            return False
+
         connection = DBConn(self.username, self.password)
         connection.initDB()
         isLogged = connection.login()
@@ -33,8 +44,9 @@ print (bcolors.OKBLUE+'-------------------------------------'+bcolors.ENDC)
 
 username = str(input('Digite o nome de usuario: '))
 password = str(getpass.getpass('Digite a senha de usuario: '))
+confirmPassword = str(getpass.getpass('Confirme a senha de usuario: '))
 
-init = Pypass(username, password)
+init = Pypass(username, password, confirmPassword)
 
 isLogged = init.isLogged()
 
