@@ -49,7 +49,7 @@ class User:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
 
-        hash = Hash.Encrypt(self.password)
+        hash = Hash.encrypt(self.password)
 
         c.execute('INSERT INTO users(username, pass) VALUES (?, ?)', (self.name, hash))
         conn.commit()
