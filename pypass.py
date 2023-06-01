@@ -1,7 +1,7 @@
 from userDB import DBConn
 from services.svcPassDB import DBSVC
 import getpass
-from colors import bcolors
+from utils.colors import bcolors
 
 class Pypass:
 

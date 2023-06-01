@@ -1,6 +1,6 @@
 import sqlite3
 from services.svcCript import criptografySVC
-from colors import bcolors
+from utils.colors import bcolors
 
 class DBSVC:
     ''' This class has services to work with the db'''
