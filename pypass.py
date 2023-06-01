@@ -16,14 +16,15 @@ class Pypass:
         return user
     
     def assertPasswords(self)-> bool:
-        coincide = false
+        coincide = False
         if (self.confirmPassword == self.password):
-            coincide = true 
+            coincide = True 
         
         return coincide
 
     def isLogged(self) -> bool:
-        if not self.assertPasswords:
+        if not self.assertPasswords():
+            print("As senhas não coincidem")
             return False
 
         connection = DBConn(self.username, self.password)
