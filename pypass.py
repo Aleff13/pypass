@@ -82,7 +82,7 @@ if(isLogged == True):
             svcSenha.getAllPasswords()
 
             init.printCollumn()
-        
+
         if(optionSelected == 4):
             title = str(input('Digite o titulo da senha: '))
             init.printCollumn()
