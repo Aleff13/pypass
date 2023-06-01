@@ -34,7 +34,7 @@ class Pypass:
         return isLogged
 
     def getOption(self) -> int:
-        option = int(input('1- Criar nova senha, 2 - Buscar senha, 3 - Mostrar todas as senhas, 4 - sair: '))
+        option = int(input('1- Criar nova senha, 2 - Buscar senha, 3 - Mostrar todas as senhas, 4 - Deletar uma senha, 5 - sair: '))
         
         return option
 
@@ -66,7 +66,7 @@ if(isLogged == True):
             senha = str(getpass.getpass('Digite a senha: '))
             init.printCollumn()
 
-            svcSenha.createPass(title, email, senha)
+            svcSenha.createPassword(title, email, senha)
             
             init.printCollumn()
 
@@ -84,6 +84,13 @@ if(isLogged == True):
             init.printCollumn()
 
         if(optionSelected == 4):
+            title = str(input('Digite o titulo da senha: '))
+            init.printCollumn()
+            
+            svcSenha.deletePassword(title)
+            init.printCollumn()
+
+        if(optionSelected == 5):
             isLogged = False
 
             init.printCollumn()
