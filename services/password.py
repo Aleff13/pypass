@@ -18,7 +18,7 @@ class Password:
         conn.commit()
         conn.close()
 
-    def createPass(self, title: str, email: str, password: str):
+    def createPassword(self, title: str, email: str, password: str):
 
         if (title == '' or email == '' or password == ''):
             print(bcolors.WARNING+ "Informe todos os valores para criar uma senha"+bcolors.ENDC)
@@ -69,3 +69,15 @@ class Password:
             decPassword = crypt.decrypt(password, pubKey)
 
             print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
+    
+    def deletePassword(self, title: str):
+        conn = sqlite3.connect(self.dbPasswordsPath)
+        c = conn.cursor()
+
+        try:
+            c.execute('DELETE FROM passwords WHERE (title == (?))', (title,))
+            conn.commit()
+            conn.close()
+            print(bcolors.OKGREEN+ "Senha de {} deletada com sucesso".format(title)+bcolors.ENDC)
+        except:
+            print(bcolors.WARNING+ "Um erro ocorreu"+bcolors.ENDC)
