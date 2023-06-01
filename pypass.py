@@ -1,5 +1,5 @@
-from userDB import DBConn
-from services.svcPassDB import DBSVC
+from services.user import User
+from services.password import Password
 import getpass
 from utils.colors import bcolors
 
@@ -11,7 +11,7 @@ class Pypass:
         self.confirmPassword = confirmPassword
 
     def getUser(self):
-        user = [self.username, self.password]
+        user = self.username
 
         return user
     
@@ -27,7 +27,7 @@ class Pypass:
             print("As senhas não coincidem")
             return False
 
-        connection = DBConn(self.username, self.password)
+        connection = User(self.username, self.password)
         connection.initDB()
         isLogged = connection.login()
 
@@ -50,10 +50,12 @@ confirmPassword = str(getpass.getpass('Confirme a senha de usuario: '))
 init = Pypass(username, password, confirmPassword)
 
 isLogged = init.isLogged()
+loggedUser = init.getUser()
+svcSenha = Password()
 
 if(isLogged == True):
+    print('Você está logado como {}'.format(loggedUser))
     
-    svcSenha = DBSVC()
     while(isLogged == True):
         optionSelected = init.getOption()
         init.printCollumn()
