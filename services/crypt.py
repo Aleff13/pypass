@@ -1,6 +1,6 @@
 import rsa 
 
-class criptografySVC:
+class Crypt:
     '''This class provides some methods to work with cryptography, like generate keys, encrypt and decrypt values'''
 
     def __init__(self) -> None:

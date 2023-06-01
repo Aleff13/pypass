@@ -1,9 +1,11 @@
 import sqlite3
-from hash import Hash
-from services.svcCript import criptografySVC
-from services.svcPassDB import DBSVC
+from services.hash import Hash
+from services.crypt import Crypt
+from services.password import Password
 
-class DBConn:
+class User:
+
+    dbUserPath = 'db/users.db'
 
     def __init__(self, name, password):
         self.name = name
@@ -12,7 +14,7 @@ class DBConn:
     def initDB(self):
         # Create a database and open the database.
         # If the database already exists just opens the database
-        conn = sqlite3.connect('db/users.db')
+        conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         # Create a users table if the table does not exists
         c.execute('''CREATE TABLE IF NOT EXISTS users(username TEXT, pass TEXT)''')
@@ -22,8 +24,8 @@ class DBConn:
 
         if(rows == []):
             self.createUser()
-            svcDbPass = DBSVC()
-            svcCrypt = criptografySVC()
+            svcDbPass = Password()
+            svcCrypt = Crypt()
             svcCrypt.generateKeys()
             svcDbPass.initDB()
 
@@ -32,7 +34,7 @@ class DBConn:
         conn.close()
 
     def login(self) -> bool:
-        conn = sqlite3.connect('db/users.db')
+        conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         c.execute('SELECT * FROM users WHERE (username == (?))', (self.name,))
         rows = c.fetchall()
@@ -44,17 +46,17 @@ class DBConn:
         return Hash.checkHash(DBHash, self.password)
 
     def createUser(self):
-        conn = sqlite3.connect('db/users.db')
+        conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
 
-        hash = Hash.Encrypt(self.password)
+        hash = Hash.encrypt(self.password)
 
         c.execute('INSERT INTO users(username, pass) VALUES (?, ?)', (self.name, hash))
         conn.commit()
         conn.close()
 
     def getUser(self) -> list:
-        conn = sqlite3.connect('db/users.db')
+        conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         c.execute('select * from users')
         rows = c.fetchall()
@@ -67,7 +69,7 @@ class DBConn:
         return user
 
     def showUser(self):
-        conn = sqlite3.connect('db/db/users.db')
+        conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         c.execute('select * from users')
         rows = c.fetchall()
