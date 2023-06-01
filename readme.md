@@ -44,3 +44,7 @@ Após realizar o login, irá aparecer uma `lista de opções`
 2. Abra seu arquivo `.bashrc`, ex.: `nano .bashrc`
 3. Insira um novo alias, ex.: `alias initDB = '/bin/python3 ~/pypass/pypass.py'`
 4. Salve o arquivo e reinicie seu terminal
+
+# Testes unitarios
+
+`python3 -m unittest discover -s tests -p '*_test.py'
