@@ -4,6 +4,7 @@ from services.crypt import Crypt
 from services.password import Password
 
 class User:
+    ''' This class has services to work with the user db'''
 
     dbUserPath = 'db/users.db'
 
@@ -17,9 +18,9 @@ class User:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         # Create a users table if the table does not exists
-        c.execute('''CREATE TABLE IF NOT EXISTS users(username TEXT, pass TEXT)''')
+        c.execute('''CREATE TABLE IF NOT EXISTS user(username TEXT, pass TEXT)''')
 
-        c.execute('''SELECT * FROM users''')
+        c.execute('''SELECT * FROM user''')
         rows = c.fetchall()
 
         if(rows == []):
@@ -36,7 +37,7 @@ class User:
     def login(self) -> bool:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
-        c.execute('SELECT * FROM users WHERE (username == (?))', (self.name,))
+        c.execute('SELECT * FROM user WHERE (username == (?))', (self.name,))
         rows = c.fetchall()
 
         if(rows == []):
@@ -51,14 +52,14 @@ class User:
 
         hash = Hash.encrypt(self.password)
 
-        c.execute('INSERT INTO users(username, pass) VALUES (?, ?)', (self.name, hash))
+        c.execute('INSERT INTO user(username, pass) VALUES (?, ?)', (self.name, hash))
         conn.commit()
         conn.close()
 
     def getUser(self) -> list:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
-        c.execute('select * from users')
+        c.execute('select * from user')
         rows = c.fetchall()
 
         if(rows == []):
@@ -71,7 +72,7 @@ class User:
     def showUser(self):
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
-        c.execute('select * from users')
+        c.execute('select * from user')
         rows = c.fetchall()
 
         for row in rows:
