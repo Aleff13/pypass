@@ -5,20 +5,20 @@ mockKeyPath = 'tests/mocks/'
 
 class HashTestClass(unittest.TestCase):
 
-    def test_assertCanGenerateKeys(self):
+    def test_assertCan_a_GenerateKeys(self):
         service = Crypt()
         isKeysGenerated = service.generateKeys(mockKeyPath)
 
         self.assertTrue(isKeysGenerated)
 
-    def test_assertCanLoadKeys(self):
+    def test_assertCan_b_LoadKeys(self):
         service = Crypt()
         public, private = service.loadKeys(mockKeyPath)
 
         self.assertIsNotNone(public)
         self.assertIsNotNone(private)
 
-    def test_assertCanEncryptMessage(self):
+    def test_assertCan_c_EncryptMessage(self):
         service = Crypt()
         public, private = service.loadKeys(mockKeyPath)
 
@@ -26,7 +26,7 @@ class HashTestClass(unittest.TestCase):
         encryptMsg = service.encrypt(message, public)
         self.assertIsInstance(encryptMsg, bytes)
 
-    def test_assertCanDecryptMessage(self):
+    def test_assertCan_d_DecryptMessage(self):
         service = Crypt()
         public, private = service.loadKeys(mockKeyPath)
 
