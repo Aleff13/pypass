@@ -6,26 +6,28 @@ class Crypt:
     def __init__(self) -> None:
         pass
 
-    def generateKeys(self):
+    def generateKeys(self, path='keys/') -> bool:
         publicKey, privateKey = rsa.newkeys(1024)
-        with open('keys/publicKey.pem', 'wb') as p:
+        with open('{}publicKey.pem'.format(path), 'wb') as p:
             p.write(publicKey.save_pkcs1('PEM'))
-        with open('keys/privateKey.pem', 'wb') as p:
+        with open('{}privateKey.pem'.format(path), 'wb') as p:
             p.write(privateKey.save_pkcs1('PEM'))
 
-    def loadKeys(self):
-        with open('keys/publicKey.pem', 'rb') as p:
+        return True
+
+    def loadKeys(self, path='keys/'):
+        with open('{}publicKey.pem'.format(path), 'rb') as p:
             publicKey = rsa.PublicKey.load_pkcs1(p.read())
-        with open('keys/privateKey.pem', 'rb') as p:
+        with open('{}privateKey.pem'.format(path), 'rb') as p:
             privateKey = rsa.PrivateKey.load_pkcs1(p.read())
 
         return privateKey, publicKey
 
-    def encrypt(self, message: str, publicKey) -> str:
+    def encrypt(self, message: str, publicKey) -> bytes:
         encMessage = rsa.encrypt(message.encode(), publicKey) 
         return encMessage
 
-    def decrypt(self, encMessage: str, privateKey) -> str:
-        decMessage = rsa.decrypt(encMessage, privateKey).decode() 
+    def decrypt(self, encMessage: str, publicKey) -> str:
+        decMessage = rsa.decrypt(encMessage, publicKey).decode() 
 
         return decMessage
