@@ -6,8 +6,12 @@ O banco de usuários serve para realizar login e garantir que você tenha permis
 
 O banco de senhas salva as senhas criptografadas utilizando rsa, ou seja você apenas conseguirá salvar senhas e recuperá-las se suas chaves forem compatíveis, por isso é esperado que as guarde com segurança.
 
-## Intalação e uso
-Assumindo que você possua o python já instalado.
+## Instalação e uso
+
+Utilizando requirement.txt
+`pip install -r requirements.txt`
+
+Assumindo que você possua python já instalado.
 
 1. Clone o projeto
 2. Acesse a pasta gerada `pypass`
@@ -15,6 +19,10 @@ Assumindo que você possua o python já instalado.
 4. Rode o arquivo `pypass.py`, ex.: `$ /bin/python3 ~/pypass/pypass.py`
 
 X. Caso algum erro ocorra, verique se você possui todas as dependências instaladas.
+
+## Atualizando dependencias
+
+`pip freeze > requirements.txt`
 
 ## Forma de utilizar 
 
@@ -47,4 +55,5 @@ Após realizar o login, irá aparecer uma `lista de opções`
 
 # Testes unitarios
 
-`python3 -m unittest discover -s tests -p '*_test.py'
+`python3 -m unittest discover -s tests -p '*_test.py'`
+
