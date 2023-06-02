@@ -3,7 +3,7 @@ name: Python package
 on: [push]
 
 jobs:
-  build:
+  code_quality:
 
     runs-on: ubuntu-latest
     
