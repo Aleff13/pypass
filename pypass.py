@@ -62,7 +62,7 @@ if(isLogged == True):
 
         if(optionSelected == 1):
             title = str(input('Digite o titulo da senha: '))
-            email = str(input('Digite o email: '))
+            email = str(input('Digite o email/username: '))
             senha = str(getpass.getpass('Digite a senha: '))
             init.printCollumn()
 
