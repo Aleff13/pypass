@@ -56,3 +56,4 @@ Após realizar o login, irá aparecer uma `lista de opções`
 # Testes unitarios
 
 `python3 -m unittest discover -s tests -p '*_test.py'`
+

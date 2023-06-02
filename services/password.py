@@ -3,6 +3,7 @@ from services.crypt import Crypt
 from utils.colors import bcolors
 
 class Password:
+
     ''' This class has services to work with the password db'''
 
     dbPasswordsPath = 'db/passwords.db'
@@ -32,12 +33,14 @@ class Password:
         cryptPass = crypt.encrypt(password, pubKey)
 
         try:
+
             c.execute('INSERT INTO password(title, email, pass) VALUES (?, ?, ?)', (title, email, cryptPass))
             conn.commit()
             conn.close()
             print(bcolors.OKGREEN+ "Senha para {} adicionada com sucesso".format(title)+bcolors.ENDC)
         except:
             print(bcolors.WARNING+ "Um erro ocorreu ao salvar a senha"+bcolors.ENDC)
+
 
     def getPassword(self, title: str):
         conn = sqlite3.connect(self.dbPasswordsPath)
@@ -59,6 +62,7 @@ class Password:
         c = conn.cursor()
 
         c.execute('SELECT * FROM password')
+
         rows = c.fetchall()
 
         crypt = Crypt()
@@ -69,6 +73,7 @@ class Password:
             decPassword = crypt.decrypt(password, pubKey)
 
             print("Title: {}, Email/Username: {} e Senha: {}".format(row[0], row[1], decPassword))
+
     
     def deletePassword(self, title: str):
         conn = sqlite3.connect(self.dbPasswordsPath)
@@ -76,6 +81,7 @@ class Password:
 
         try:
             c.execute('DELETE FROM password WHERE (title == (?))', (title,))
+
             conn.commit()
             conn.close()
             print(bcolors.OKGREEN+ "Senha de {} deletada com sucesso".format(title)+bcolors.ENDC)

@@ -21,6 +21,7 @@ class User:
         c.execute('''CREATE TABLE IF NOT EXISTS user(username TEXT, pass TEXT)''')
 
         c.execute('''SELECT * FROM user''')
+
         rows = c.fetchall()
 
         if(rows == []):
@@ -38,6 +39,7 @@ class User:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         c.execute('SELECT * FROM user WHERE (username == (?))', (self.name,))
+
         rows = c.fetchall()
 
         if(rows == []):
@@ -53,6 +55,7 @@ class User:
         hash = Hash.encrypt(self.password)
 
         c.execute('INSERT INTO user(username, pass) VALUES (?, ?)', (self.name, hash))
+
         conn.commit()
         conn.close()
 
@@ -60,6 +63,7 @@ class User:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         c.execute('select * from user')
+
         rows = c.fetchall()
 
         if(rows == []):
@@ -73,6 +77,7 @@ class User:
         conn = sqlite3.connect(self.dbUserPath)
         c = conn.cursor()
         c.execute('select * from user')
+
         rows = c.fetchall()
 
         for row in rows:

@@ -19,6 +19,7 @@ class Crypt:
         with open('{}publicKey.pem'.format(path), 'rb') as p:
             publicKey = rsa.PublicKey.load_pkcs1(p.read())
         with open('{}privateKey.pem'.format(path), 'rb') as p:
+
             privateKey = rsa.PrivateKey.load_pkcs1(p.read())
 
         return privateKey, publicKey
