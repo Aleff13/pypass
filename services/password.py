@@ -51,12 +51,16 @@ class Password:
 
         crypt = Crypt()
         pubKey, privateKey = crypt.loadKeys()
-
+        
         for row in rows:
             password = row[2]
             decPassword = crypt.decrypt(password, pubKey)
-            print("Title: {}, Emai/Username: {} e Senha: {}".format(row[0], row[1], decPassword))
+            print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
 
+            password = [row[0], row[1], decPassword]
+
+        return password
+    
     def getAllPasswords(self):
         conn = sqlite3.connect(self.dbPasswordsPath)
         c = conn.cursor()
@@ -68,11 +72,17 @@ class Password:
         crypt = Crypt()
         pubKey, privateKey = crypt.loadKeys()
 
+        decriptedPasswords = []
+
         for row in rows:
             password = row[3]
             decPassword = crypt.decrypt(password, pubKey)
+            decriptedPasswords.append([row[0], row[1], decPassword])
 
-            print("Title: {}, Email/Username: {} e Senha: {}".format(row[0], row[1], decPassword))
+            print("Title: {}, Email: {} e Senha: {}".format(row[0], row[1], decPassword))
+        
+        return decriptedPasswords
+
 
     
     def deletePassword(self, title: str):
