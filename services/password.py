@@ -1,20 +1,21 @@
 import sqlite3
 from services.crypt import Crypt
 from utils.colors import bcolors
+from shared.constants import Constants
 
+#todo create a repository
 class Password:
-
     ''' This class has services to work with the password db'''
 
-    dbPasswordsPath = 'db/passwords.db'
+    dbPath = Constants.DATABASEPATH.value
 
     def __init__(self) -> None:
         return
 
     def initDB(self):
-        conn = sqlite3.connect(self.dbPasswordsPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS password(title TEXT PRIMARY KEY, email, TEXT, pass TEXT)''')
+        c.execute('''CREATE TABLE IF NOT EXISTS password(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT UNIQUE, email TEXT, pass TEXT)''')
 
         conn.commit()
         conn.close()
@@ -25,7 +26,7 @@ class Password:
             print(bcolors.WARNING+ "Informe todos os valores para criar uma senha"+bcolors.ENDC)
             return
 
-        conn = sqlite3.connect(self.dbPasswordsPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
 
         crypt = Crypt()
@@ -43,7 +44,7 @@ class Password:
 
 
     def getPassword(self, title: str):
-        conn = sqlite3.connect(self.dbPasswordsPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
 
         c.execute('SELECT title, email, pass FROM password WHERE (title == (?))', (title,))
@@ -62,10 +63,10 @@ class Password:
         return password
     
     def getAllPasswords(self):
-        conn = sqlite3.connect(self.dbPasswordsPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
 
-        c.execute('SELECT * FROM password')
+        c.execute('SELECT title, email, pass FROM password')
 
         rows = c.fetchall()
 
@@ -75,7 +76,7 @@ class Password:
         decriptedPasswords = []
 
         for row in rows:
-            password = row[3]
+            password = row[2]
             decPassword = crypt.decrypt(password, pubKey)
             decriptedPasswords.append([row[0], row[1], decPassword])
 
@@ -86,7 +87,7 @@ class Password:
 
     
     def deletePassword(self, title: str):
-        conn = sqlite3.connect(self.dbPasswordsPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
 
         try:
