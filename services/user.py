@@ -2,11 +2,13 @@ import sqlite3
 from services.hash import Hash
 from services.crypt import Crypt
 from services.password import Password
+from shared.constants import Constants
 
+#todo create a repository
 class User:
     ''' This class has services to work with the user db'''
 
-    dbUserPath = 'db/users.db'
+    dbPath = Constants.DATABASEPATH.value
 
     def __init__(self, name, password):
         self.name = name
@@ -15,10 +17,10 @@ class User:
     def initDB(self):
         # Create a database and open the database.
         # If the database already exists just opens the database
-        conn = sqlite3.connect(self.dbUserPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
-        # Create a users table if the table does not exists
-        c.execute('''CREATE TABLE IF NOT EXISTS user(username TEXT, pass TEXT)''')
+        # Create a user table if the table does not exists
+        c.execute('''CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, pass TEXT)''')
 
         c.execute('''SELECT * FROM user''')
 
@@ -36,7 +38,7 @@ class User:
         conn.close()
 
     def login(self) -> bool:
-        conn = sqlite3.connect(self.dbUserPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
         c.execute('SELECT * FROM user WHERE (username == (?))', (self.name,))
 
@@ -45,11 +47,11 @@ class User:
         if(rows == []):
             return False
         
-        DBHash = rows[0][1]
+        DBHash = rows[0][2]
         return Hash.checkHash(DBHash, self.password)
 
     def createUser(self):
-        conn = sqlite3.connect(self.dbUserPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
 
         hash = Hash.encrypt(self.password)
@@ -59,8 +61,9 @@ class User:
         conn.commit()
         conn.close()
 
+    #todo: change this method to get by username
     def getUser(self) -> list:
-        conn = sqlite3.connect(self.dbUserPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
         c.execute('select * from user')
 
@@ -74,7 +77,7 @@ class User:
         return user
 
     def showUser(self):
-        conn = sqlite3.connect(self.dbUserPath)
+        conn = sqlite3.connect(self.dbPath)
         c = conn.cursor()
         c.execute('select * from user')
 

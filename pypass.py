@@ -2,6 +2,7 @@ from services.user import User
 from services.password import Password
 import getpass
 from utils.colors import bcolors
+from shared.options_enum import Options
 
 class Pypass:
 
@@ -60,7 +61,7 @@ if(isLogged == True):
         optionSelected = init.getOption()
         init.printCollumn()
 
-        if(optionSelected == 1):
+        if(optionSelected == Options.CREATE.value):
             title = str(input('Digite o titulo da senha: '))
             email = str(input('Digite o email/username: '))
             senha = str(getpass.getpass('Digite a senha: '))
@@ -70,7 +71,7 @@ if(isLogged == True):
             
             init.printCollumn()
 
-        if(optionSelected == 2):
+        if(optionSelected == Options.GETONE.value):
             title = str(input('Digite o titulo da senha: '))
             init.printCollumn()
 
@@ -78,19 +79,19 @@ if(isLogged == True):
 
             init.printCollumn()
 
-        if(optionSelected == 3):
+        if(optionSelected == Options.GETALL.value):
             svcSenha.getAllPasswords()
 
             init.printCollumn()
 
-        if(optionSelected == 4):
+        if(optionSelected == Options.DELETEONE.value):
             title = str(input('Digite o titulo da senha: '))
             init.printCollumn()
             
             svcSenha.deletePassword(title)
             init.printCollumn()
 
-        if(optionSelected == 5):
+        if(optionSelected == Options.EXIT.value):
             isLogged = False
 
             init.printCollumn()
